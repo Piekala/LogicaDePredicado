@@ -1,7 +1,7 @@
 // Simplificação: p ∧ q <-> p
-export function simplificacao(p: string, q: string, simbol: string): string {
+export function simplificacao(p: string, q: string, simbol: boolean): string {
     // Se o símbolo for uma conjunção (∧), retorna o primeiro termo (p)
-    if (simbol === '∧')
+    if (simbol)
         return p;
 
     return '';
@@ -36,24 +36,28 @@ export function conjuncao(p: string, q: string): string {
 // Modus Ponens: p -> q, p <-> q
 export function ponens(p: string, q: string, simbol: string): string {
     // Se o símbolo for uma implicação (->), retorna q
-    if (simbol === '->')
+    if (simbol === '->' && !p.includes('~'))
         return q;
+    else if(simbol ==='->' && p.includes('~'))
+        return '~'+q
     return '';
 }
 
 // Modus Tollens: p -> q, ~q <-> ~p
-export function tollens(p: string, q: string, simbol: string): string {
+export function tollens(p: string, q: string, simbol: boolean): string {
+    console.log('p:', p, 'q:', q)
     // Se o símbolo for uma implicação (->), retorna a negação de p (~p)
-    if (simbol === '->')
-        return '~' + p;
+    if (simbol)
+        return '~' + p.split('->')[0];
     return '';
 }
 
 // Silogismo Hipotético: p -> q, q -> r <-> p -> r
-export function silogismo_hipotetico(p1: string, q1: string, q2: string, r: string, simbol1: string, simbol2: string): string {
+export function silogismo_hipotetico(p1: string, q1: string, q2: string, r: string, simbol1: boolean, simbol2: boolean): string {
     // Se q1 == q2 e ambas as relações forem implicações (->), retorna p1 -> r
-    if (q1 === q2 && simbol1 === '->' && simbol2 === '->')
+    if (q1 === q2 && simbol1 && simbol2)
         return p1 + '->' + r;
+    console.log(p1,q1,q2,r)
     return '';
 }
 
